@@ -1,34 +1,48 @@
 import React, { Component } from 'react';
-import { View, Image, TouchableHighlight, TextInput } from 'react-native';
+import { View, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 class Search extends Component {
+  state = { searchInput: '' }
+
   render() {
+    const {
+      containerStyle,
+      contentStyle,
+      imageCont,
+      searchArea,
+      searchBar,
+      imageStyle,
+      inputStyle,
+      searchImageStyle
+    } = styles;
+
     return (
     <Image
       source={require('../img/BACKGROUND.png')}
-      style={styles.containerStyle}
+      style={containerStyle}
     >
-        <View style={styles.contentStyle}>
-          <View style={styles.imageCont}>
+        <View style={contentStyle}>
+          <View style={imageCont}>
             <Image
               source={require('../img/BIGLOGO.png')}
-              style={styles.imageStyle}
+              style={imageStyle}
             />
           </View>
-          <View style={styles.searchArea}>
-            <View style={styles.searchBar}>
+          <View style={searchArea}>
+            <View style={searchBar}>
               <TextInput
-                style={styles.inputStyle}
+                style={inputStyle}
                 placeholder='Search...'
                 placeholderTextColor='#474C54'
               />
             </View>
-              <TouchableHighlight style={null}>
+              <TouchableWithoutFeedback style={null} onPress={Actions.results}>
                 <Image
                   source={require('../img/SEARCH_ICON.png')}
-                  style={styles.searchImageStyle}
+                  style={searchImageStyle}
                 />
-              </TouchableHighlight>
+              </TouchableWithoutFeedback>
             </View>
         </View>
     </Image>
@@ -74,12 +88,6 @@ const styles = {
       height: 20,
       width: 20
     }
-   },
-   searchText: {
-    fontWeight: 'bold',
-    color: '#474C54',
-    textAlign: 'center',
-    fontSize: 20,
    },
    imageStyle: {
      width: 200,

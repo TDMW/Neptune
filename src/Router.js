@@ -2,6 +2,7 @@ import React from 'react';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import Search from './components/Search';
 import Info from './components/Info';
+import Results from './components/Results';
 
 const RouterComponent = () => {
   return (
@@ -18,6 +19,10 @@ const RouterComponent = () => {
           key="info"
           component={Info}
         />
+        <Scene
+          key="results"
+          component={Results}
+        />
       </Scene>
     </Router>
   );
@@ -25,7 +30,8 @@ const RouterComponent = () => {
 
 const styles = {
   routerStyle: {
-    backgroundColor: '#191C21'
+    backgroundColor: 'transparent',
+    borderBottomColor: 'transparent',
   }
 };
 export default RouterComponent;
