@@ -2,8 +2,17 @@ import React, { Component } from 'react';
 import { View, Image, TouchableWithoutFeedback, TextInput } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
+let searchText = '';
+
 class Search extends Component {
-  state = { searchInput: '' }
+  onSearchChange(text) {
+    searchText = text;
+  }
+
+  onButtonPress() {
+    Actions.results({ searchText });
+    searchText = '';
+  }
 
   render() {
     const {
@@ -18,6 +27,7 @@ class Search extends Component {
     } = styles;
 
     return (
+
     <Image
       source={require('../img/BACKGROUND.png')}
       style={containerStyle}
@@ -35,9 +45,10 @@ class Search extends Component {
                 style={inputStyle}
                 placeholder='Search...'
                 placeholderTextColor='#474C54'
+                onChangeText={this.onSearchChange.bind(this)}
               />
             </View>
-              <TouchableWithoutFeedback style={null} onPress={Actions.results}>
+              <TouchableWithoutFeedback style={null} onPress={this.onButtonPress.bind(this)}>
                 <Image
                   source={require('../img/SEARCH_ICON.png')}
                   style={searchImageStyle}
