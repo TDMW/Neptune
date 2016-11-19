@@ -46,6 +46,7 @@ class Search extends Component {
                 placeholder='Search...'
                 placeholderTextColor='#474C54'
                 onChangeText={this.onSearchChange.bind(this)}
+                autoCorrect={false}
               />
             </View>
               <TouchableWithoutFeedback style={null} onPress={this.onButtonPress.bind(this)}>

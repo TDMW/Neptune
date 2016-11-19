@@ -3,10 +3,9 @@ import { View, Image } from 'react-native';
 import Unsplash from 'unsplash-js/native';
 
 class Results extends Component {
-  state = { picture: '', loading: true, text: '' }
+  state = { picture: `${null}`, loading: true, text: '' }
 
   componentWillMount() {
-    this.showLoader();
     const searchText = this.props.searchText;
 
     const unsplash = new Unsplash({
@@ -19,8 +18,8 @@ class Results extends Component {
       .then(response => response.json())
       .then(jsonData => {
           this.setState({ picture: jsonData[0].urls.full, loading: false });
-      });
-
+      })
+      .then(() => { this.setState({ loading: false }); });
       console.log(this.props.searchText);
   }
 
@@ -29,8 +28,8 @@ class Results extends Component {
       console.log('loading');
       return (
         <Image
-          style={{ width: 1000, height: 1000 }}
-          source={require('../img/BIGLOGO.png')}
+          style={{ width: 200, height: 200, alignSelf: 'center' }}
+          source={require('../img/loaderBIG.gif')}
         />
     );
   }
@@ -43,6 +42,8 @@ class Results extends Component {
         style={styles.containerStyle}
       >
         <View>
+          {this.showLoader()}
+
           <Image
             source={{ uri: this.state.picture }}
             style={{ height: 200, width: 200 }}
