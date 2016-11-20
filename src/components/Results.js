@@ -17,10 +17,9 @@ class Results extends Component {
     unsplash.photos.searchPhotos(`${searchText}`, [], 1, 15)
       .then(response => response.json())
       .then(jsonData => {
-          this.setState({ picture: jsonData[0].urls.full, loading: false });
+          this.setState({ picture: jsonData[0].urls.full });
       })
       .then(() => { this.setState({ loading: false }); });
-      console.log(this.props.searchText);
   }
 
   showLoader() {

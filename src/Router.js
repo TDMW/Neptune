@@ -6,7 +6,11 @@ import Results from './components/Results';
 
 const RouterComponent = () => {
   return (
-    <Router navigationBarStyle={styles.routerStyle}>
+    <Router
+      navigationBarStyle={styles.routerStyle}
+      barButtonIconStyle={styles.barButton}
+      titleStyle={styles.navBarTitle}
+    >
       <Scene key="main">
         <Scene
           onRight={() => Actions.info()}
@@ -20,6 +24,8 @@ const RouterComponent = () => {
           component={Info}
         />
         <Scene
+          onRight={() => Actions.info()}
+          rightButtonImage={require('./img/ABOUT_ICON.png')}
           key="results"
           component={Results}
         />
@@ -32,6 +38,13 @@ const styles = {
   routerStyle: {
     backgroundColor: 'transparent',
     borderBottomColor: 'transparent',
-  }
+  },
+  navBarTitle: {
+    color: '#fff'
+  },
+  barButton: {
+    tintColor: 'rgb(255,255,255)',
+    }
 };
+
 export default RouterComponent;

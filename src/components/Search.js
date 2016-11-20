@@ -10,7 +10,7 @@ class Search extends Component {
   }
 
   onButtonPress() {
-    Actions.results({ searchText });
+    Actions.results({ searchText, title: `${searchText}` });
     searchText = '';
   }
 
