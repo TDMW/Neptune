@@ -3,6 +3,7 @@ import { Router, Scene, Actions } from 'react-native-router-flux';
 import Search from './components/Search';
 import Info from './components/Info';
 import Results from './components/Results';
+import picModal from './components/picModal';
 
 const RouterComponent = () => {
   return (
@@ -29,6 +30,8 @@ const RouterComponent = () => {
           key="results"
           component={Results}
         />
+        <Scene key="pictureModal" component={picModal} />
+
       </Scene>
     </Router>
   );
@@ -36,7 +39,7 @@ const RouterComponent = () => {
 
 const styles = {
   routerStyle: {
-    backgroundColor: 'transparent',
+    backgroundColor: '#191C21',
     borderBottomColor: 'transparent',
   },
   navBarTitle: {

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
+import { View, Image, ListView, TouchableWithoutFeedback } from 'react-native';
 import Unsplash from 'unsplash-js/native';
+import { Actions } from 'react-native-router-flux';
+
+const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
 
 class Results extends Component {
-  state = { picture: `${null}`, loading: true, text: '' }
+  state = { picture: `${null}`, loading: true, text: '', dataSource: ds.cloneWithRows([]) }
 
-  componentWillMount() {
+componentWillMount() {
     const searchText = this.props.searchText;
 
     const unsplash = new Unsplash({
@@ -14,38 +17,61 @@ class Results extends Component {
         callbackUrl: 'urn:ietf:wg:oauth:2.0:oob',
       });
 
-    unsplash.photos.searchPhotos(`${searchText}`, [], 1, 15)
+    unsplash.photos.searchPhotos(`${searchText}`, [], 1, 21)
       .then(response => response.json())
       .then(jsonData => {
-          this.setState({ picture: jsonData[0].urls.full });
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(jsonData),
+            loading: false
+          });
+          console.log(this.props);
       })
-      .then(() => { this.setState({ loading: false }); });
+      .then();
   }
 
-  showLoader() {
+onImagePress(rowData) {
+      const fullImg = rowData.urls.full;
+      console.log(fullImg);
+    }
+
+showLoader() {
     if (this.state.loading) {
-      console.log('loading');
       return (
-        <Image
-          style={{ width: 200, height: 200, alignSelf: 'center' }}
-          source={require('../img/loaderBIG.gif')}
-        />
+          <Image
+            style={{ width: 200, height: 200, alignSelf: 'center' }}
+            source={require('../img/loaderBIG.gif')}
+          />
     );
   }
 }
 
-  render() {
+renderRow(rowData) {
+  const fullPic = rowData.urls.full;
+
+  return (
+      <TouchableWithoutFeedback onPress={() => Actions.pictureModal({ fullPic })}>
+        <Image
+          source={{ uri: `${rowData.urls.full}` }}
+          style={styles.thumbStyle}
+        />
+      </TouchableWithoutFeedback>
+  );
+}
+
+render() {
     return (
       <Image
         source={require('../img/BACKGROUND.png')}
         style={styles.containerStyle}
       >
-        <View>
+        <View style={{ overflow: 'hidden' }}>
           {this.showLoader()}
-
-          <Image
-            source={{ uri: this.state.picture }}
-            style={{ height: 200, width: 200 }}
+          <ListView
+            style={{ overflow: 'hidden' }}
+            removeClippedSubviews
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow}
+            contentContainerStyle={styles.listStyle}
           />
         </View>
       </Image>
@@ -61,6 +87,22 @@ const styles = {
     width: null,
     justifyContent: 'center',
   },
+  listStyle: {
+    justifyContent: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 65,
+  },
+  rowStyle: {
+    flex: 1,
+    paddingVertical: 8,
+    paddingLeft: 16
+  },
+  thumbStyle: {
+      margin: 3,
+      width: 115,
+      height: 115
+  }
 };
 
 export default Results;
