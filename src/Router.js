@@ -23,6 +23,7 @@ const RouterComponent = () => {
         <Scene
           key="info"
           component={Info}
+          title='About'
         />
         <Scene
           onRight={() => Actions.info()}
@@ -43,7 +44,8 @@ const styles = {
     borderBottomColor: 'transparent',
   },
   navBarTitle: {
-    color: '#fff'
+    color: '#fff',
+    fontFamily: 'Roboto-Regular'
   },
   barButton: {
     tintColor: 'rgb(255,255,255)',

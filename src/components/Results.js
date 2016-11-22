@@ -17,16 +17,14 @@ componentWillMount() {
         callbackUrl: 'urn:ietf:wg:oauth:2.0:oob',
       });
 
-    unsplash.photos.searchPhotos(`${searchText}`, [], 1, 21)
+    unsplash.photos.searchPhotos(`${searchText}`, [], 1, 51)
       .then(response => response.json())
       .then(jsonData => {
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(jsonData),
             loading: false
           });
-          console.log(this.props);
-      })
-      .then();
+      });
   }
 
 onImagePress(rowData) {
@@ -51,7 +49,7 @@ renderRow(rowData) {
   return (
       <TouchableWithoutFeedback onPress={() => Actions.pictureModal({ fullPic })}>
         <Image
-          source={{ uri: `${rowData.urls.full}` }}
+          source={{ uri: `${rowData.urls.thumb}` }}
           style={styles.thumbStyle}
         />
       </TouchableWithoutFeedback>
@@ -64,11 +62,10 @@ render() {
         source={require('../img/BACKGROUND.png')}
         style={styles.containerStyle}
       >
-        <View style={{ overflow: 'hidden' }}>
+        <View>
           {this.showLoader()}
           <ListView
-            style={{ overflow: 'hidden' }}
-            removeClippedSubviews
+            enableEmptySections
             dataSource={this.state.dataSource}
             renderRow={this.renderRow}
             contentContainerStyle={styles.listStyle}
